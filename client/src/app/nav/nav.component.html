@@ -1,21 +1,24 @@
 <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
   <div class="container">
-    <a class="navbar-brand" href="#">Social App</a>
+    <a class="navbar-brand" routerLink="/" >Social App</a>
 
-      <ul class="navbar-nav me-auto mb-2 mb-md-0" *ngIf="_accountService.currentUser$ | async">
-        <li class="nav-item">
-          <a class="nav-link" href="#">Online User</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Lists</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link">Messages</a>
-        </li>
+      <ul class="navbar-nav me-auto mb-2 mb-md-0" >
+        <ng-container *ngIf="_accountService.currentUser$ | async">
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/members" routerLinkActive="active">Online User</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/lists" routerLinkActive="active">Lists</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/messages" routerLinkActive="active">Messages</a>
+          </li>
+        </ng-container>
+
       </ul>
 
-      <div class="dropdown" *ngIf="_accountService.currentUser$ | async" dropdown>
-        <a  class="dropdown-toggle text-ligth" dropdownToggle>Welcome user</a>
+      <div class="dropdown" *ngIf="(_accountService.currentUser$ | async) as user" dropdown>
+        <a  class="dropdown-toggle text-ligth" dropdownToggle>Welcome {{user.userName | titlecase}}  </a>
         <div class="dropdown-menu mt-3" *dropdownMenu>
           <a href="" class="dropdown-item">Edit Profile</a>
           <div class="dropdown-divider"></div>
@@ -33,7 +36,7 @@
          name="password"
          [(ngModel)]="model.password"
          type="password" placeholder="Password">
-        <button class="btn btn-outline-success" type="submit">Login</button>
+        <button class="btn btn-success" type="submit">Login</button>
       </form>
     </div>
 </nav>
