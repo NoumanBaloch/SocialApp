@@ -25,7 +25,6 @@ export class MemberEditComponent implements OnInit {
     private _accountService: AccountService,
     private _memberService: MembersService,
     private _toastrService: ToastrService) {
-      debugger;
       this._accountService.currentUser$.pipe(take(1)).subscribe(user => this.user = user);
      }
 
