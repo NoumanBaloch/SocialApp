@@ -12,7 +12,9 @@ import { ToastrService } from 'ngx-toastr';
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
 
-  constructor(private _router: Router, private _toastr: ToastrService) {}
+  constructor(private _router: Router, private _toastr: ToastrService) {
+    debugger
+  }
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     return next.handle(request).pipe(
@@ -25,6 +27,7 @@ export class ErrorInterceptor implements HttpInterceptor {
               break;
             case 400:
               if(error.error.errors){
+                debugger
                 const modalStateErrors = [];
                 for(const key in error.error.errors){
                   if(error.error.errors[key]){
@@ -32,6 +35,10 @@ export class ErrorInterceptor implements HttpInterceptor {
                   }
                 }
                 throw modalStateErrors.flat();
+              }
+              else if(typeof(error.error) == 'string')
+              {
+                this._toastr.error(error.error, error.status);
               }
               else{
                 this._toastr.error(error.statusText === 'OK' ? 'Bad Request': error.statusText, error.status);
